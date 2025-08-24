@@ -30,7 +30,14 @@ export default function Clientes() {
           {clientes.map((cliente) => (
             <tr key={cliente.id} className="hover:bg-gray-50">
               <td className="p-3 border-b">{cliente.id}</td>
-              <td className="p-3 border-b">{cliente.nome}</td>
+              <td className="p-3 border-b">
+                <Link
+                  href={`/clientes/${cliente.id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {cliente.nome}
+                </Link>
+              </td>
               <td className="p-3 border-b">{cliente.cnpj}</td>
             </tr>
           ))}
