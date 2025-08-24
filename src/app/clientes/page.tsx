@@ -1,9 +1,8 @@
 import Link from "next/link";
+import api from "@/lib/api";
+import { Cliente } from "@/lib/types";
 
-const clientes = [
-  { id: 1, nome: "Empresa A", cnpj: "12.345.678/0001-99" },
-  { id: 2, nome: "Empresa B", cnpj: "98.765.432/0001-11" },
-];
+const { data: clientes } = await api.get<Cliente[]>("/clientes");
 
 export default function Clientes() {
   return (
@@ -24,6 +23,7 @@ export default function Clientes() {
             <th className="text-left p-3 border-b">ID</th>
             <th className="text-left p-3 border-b">Nome</th>
             <th className="text-left p-3 border-b">CNPJ</th>
+            <th className="text-left p-3 border-b">Ativo</th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +39,7 @@ export default function Clientes() {
                 </Link>
               </td>
               <td className="p-3 border-b">{cliente.cnpj}</td>
+              <td className="p-3 border-b">{cliente.ativo ? "Sim" : "Não"}</td>
             </tr>
           ))}
         </tbody>
