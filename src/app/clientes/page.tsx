@@ -1,10 +1,14 @@
-import Link from "next/link";
-import api from "@/lib/api";
-import { Cliente } from "@/lib/types";
+"use client";
 
-const { data: clientes } = await api.get<Cliente[]>("/clientes");
+import Link from "next/link";
+import { useClientes } from "@/hooks/useClientes";
 
 export default function Clientes() {
+  const { clientes, isLoading, isError } = useClientes();
+
+  if (isLoading) return <p>Carregando...</p>;
+  if (isError) return <p>Erro ao carregar</p>;
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -27,7 +31,7 @@ export default function Clientes() {
           </tr>
         </thead>
         <tbody>
-          {clientes.map((cliente) => (
+          {clientes?.map((cliente) => (
             <tr key={cliente.id} className="hover:bg-gray-50">
               <td className="p-3 border-b">{cliente.id}</td>
               <td className="p-3 border-b">
