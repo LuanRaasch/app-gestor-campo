@@ -124,6 +124,7 @@ export default function ClienteDetalhesPage({
           </button>
 
           <button
+            type="button"
             className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
             onClick={() => router.push("/clientes")}
           >
