@@ -48,13 +48,13 @@ export default function Clientes() {
               <td className="p-3 border-b text-center">
                 <div className="inline-flex gap-2 justify-center">
                   <button
-                    className="text-blue-500 hover:text-blue-700"
+                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
                     onClick={() => handleEdit(cliente.id)}
                   >
                     <Edit size={20} />
                   </button>
                   <button
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-500 hover:text-red-700 cursor-pointer"
                     // onClick={() => handleDelete(id)}
                   >
                     <Trash2 size={20} />

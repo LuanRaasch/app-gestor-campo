@@ -81,7 +81,7 @@ export default function ClienteDetalhesPage({
         </div>
 
         {/*O endereco ocupa 6 colunas */}
-        <div className="col-span-12 md:col-span-4">
+        <div className="col-span-12 md:col-span-6">
           <label className="block text-sm font-medium mb-1">Endereço</label>
           <input
             type="text"
@@ -93,7 +93,7 @@ export default function ClienteDetalhesPage({
         </div>
 
         {/*O telefone ocupa 6 colunas */}
-        <div className="col-span-12 md:col-span-4">
+        <div className="col-span-12 md:col-span-5">
           <label className="block text-sm font-medium mb-1">Telefone</label>
           <input
             type="text"
@@ -104,28 +104,27 @@ export default function ClienteDetalhesPage({
           />
         </div>
 
-        <div className="col-span-12 md:col-span-4">
-          <label className="block text-sm font-medium mb-1">Ativo</label>
+        <div className="col-span-12 md:col-span-1 flex items-center mt-6 gap-2">
+          <label className="block text-sm font-medium mb-1 m-0">Ativo</label>
           <input
             type="checkbox"
             checked={ativo}
             onChange={(e) => setAtivo(e.target.checked)}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
+            className="h-5 w-5 accent-blue-500"
           />
         </div>
 
         <div className="flex justify-end gap-2 col-span-12 mt-4">
           <button
             type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition cursor-pointer"
             onClick={handleSubmit}
           >
             Salvar
           </button>
 
           <button
-            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
             onClick={() => router.push("/clientes")}
           >
             Cancelar

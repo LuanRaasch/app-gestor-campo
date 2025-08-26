@@ -25,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className="flex min-h-screen bg-gray-100">
+      <body
+        className={`flex min-h-screen bg-gray-100 ${geistSans.variable} ${geistMono.variable}`}
+      >
         {/* Sidebar fixa no desktop */}
         <div className="hidden md:block w-64">
           <Sidebar />

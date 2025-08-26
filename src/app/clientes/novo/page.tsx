@@ -81,13 +81,13 @@ export default function NovoClientePage() {
         <div className="flex justify-end gap-2 col-span-12 mt-4">
           <button
             type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition cursor-pointer"
           >
             Salvar
           </button>
 
           <button
-            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
             onClick={() => router.push("/clientes")}
           >
             Cancelar
