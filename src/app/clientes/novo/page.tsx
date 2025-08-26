@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
 import { mutate } from "swr";
+import api from "@/lib/api";
 
 export default function NovoClientePage() {
   const [nome, setNome] = useState("");

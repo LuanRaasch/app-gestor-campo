@@ -1,10 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { Edit, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useClientes } from "@/hooks/useClientes";
 
 export default function Clientes() {
   const { clientes, isLoading, isError } = useClientes();
+  const router = useRouter();
+
+  const handleEdit = (id: number) => {
+    router.push(`/clientes/${id}`);
+  };
 
   if (isLoading) return <p>Carregando...</p>;
   if (isError) return <p>Erro ao carregar</p>;
@@ -28,22 +35,32 @@ export default function Clientes() {
             <th className="text-left p-3 border-b">Nome</th>
             <th className="text-left p-3 border-b">CNPJ</th>
             <th className="text-left p-3 border-b">Ativo</th>
+            <th className="text-center p-3 border-b">Ações</th>
           </tr>
         </thead>
         <tbody>
           {clientes?.map((cliente) => (
             <tr key={cliente.id} className="hover:bg-gray-50">
               <td className="p-3 border-b">{cliente.id}</td>
-              <td className="p-3 border-b">
-                <Link
-                  href={`/clientes/${cliente.id}`}
-                  className="text-blue-600 hover:underline"
-                >
-                  {cliente.nome}
-                </Link>
-              </td>
+              <td className="p-3 border-b">{cliente.nome}</td>
               <td className="p-3 border-b">{cliente.cnpj}</td>
               <td className="p-3 border-b">{cliente.ativo ? "Sim" : "Não"}</td>
+              <td className="p-3 border-b text-center">
+                <div className="inline-flex gap-2 justify-center">
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+                    onClick={() => handleEdit(cliente.id)}
+                  >
+                    <Edit size={20} />
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700"
+                    // onClick={() => handleDelete(id)}
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

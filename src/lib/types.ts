@@ -5,6 +5,6 @@ export type Cliente = {
   endereco: string;
   telefone: string;
   ativo: boolean;
-  criado_em: string;
-  atualizado_em: string;
+  criado_em?: string;
+  atualizado_em?: string;
 };
