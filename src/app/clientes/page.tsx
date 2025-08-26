@@ -4,12 +4,14 @@ import Link from "next/link";
 import { Edit, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { mutate } from "swr";
+import { useState } from "react";
 import { useClientes } from "@/hooks/useClientes";
 import api from "@/lib/api";
 
 export default function Clientes() {
   const { clientes, isLoading, isError } = useClientes();
   const router = useRouter();
+  const [busca, setBusca] = useState("");
 
   const handleDelete = async (id: number) => {
     await api.delete(`/clientes/${id}`);
@@ -20,11 +22,19 @@ export default function Clientes() {
     router.push(`/clientes/${id}`);
   };
 
+  // Filtra os clientes pelo nome ou CNPJ
+  const clientesFiltrados = clientes?.filter(
+    (cliente) =>
+      cliente.nome.toLowerCase().includes(busca.toLowerCase()) ||
+      cliente.cnpj.toLowerCase().includes(busca.toLowerCase())
+  );
+
   if (isLoading) return <p>Carregando...</p>;
   if (isError) return <p>Erro ao carregar</p>;
 
   return (
     <div className="p-6">
+      {/*preciso implementar uma busca pelos itens na tabela */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Clientes</h1>
         <Link
@@ -33,6 +43,17 @@ export default function Clientes() {
         >
           Novo
         </Link>
+      </div>
+
+      {/* Campo de busca */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Buscar por nome ou CNPJ..."
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          className="border rounded-lg px-3 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
       <table className=" w-full border border-gray-200 shadow-md rounded-lg overflow-hidden">
@@ -46,7 +67,7 @@ export default function Clientes() {
           </tr>
         </thead>
         <tbody>
-          {clientes?.map((cliente) => (
+          {clientesFiltrados?.map((cliente) => (
             <tr key={cliente.id} className="hover:bg-gray-50">
               <td className="p-3 border-b">{cliente.id}</td>
               <td className="p-3 border-b">{cliente.nome}</td>
