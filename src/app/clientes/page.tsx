@@ -3,11 +3,18 @@
 import Link from "next/link";
 import { Edit, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { mutate } from "swr";
 import { useClientes } from "@/hooks/useClientes";
+import api from "@/lib/api";
 
 export default function Clientes() {
   const { clientes, isLoading, isError } = useClientes();
   const router = useRouter();
+
+  const handleDelete = async (id: number) => {
+    await api.delete(`/clientes/${id}`);
+    mutate("/clientes"); // <- atualiza a lista de clientes
+  };
 
   const handleEdit = (id: number) => {
     router.push(`/clientes/${id}`);
@@ -55,7 +62,7 @@ export default function Clientes() {
                   </button>
                   <button
                     className="text-red-500 hover:text-red-700 cursor-pointer"
-                    // onClick={() => handleDelete(id)}
+                    onClick={() => handleDelete(cliente.id)}
                   >
                     <Trash2 size={20} />
                   </button>
