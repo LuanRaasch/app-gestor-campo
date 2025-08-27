@@ -27,7 +27,7 @@ export default function ClienteDetalhesPage({
 
     api.put(`clientes/${id}`, { nome, cnpj, endereco, telefone, ativo });
     mutate("/clientes"); // <- atualiza a lista de clientes
-    router.push("/clientes");
+    router.push("/clientes?toast=success&msg=Editado com sucesso!");
   };
 
   const { cliente, isLoading, isError } = useClienteDetail(Number(id));

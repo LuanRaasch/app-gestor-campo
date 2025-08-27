@@ -18,7 +18,7 @@ export default function NovoClientePage() {
 
     api.post("/clientes", { nome, cnpj, endereco, telefone });
     mutate("/clientes"); // <- atualiza a lista de clientes
-    router.push("/clientes");
+    router.push("/clientes?toast=success&msg=Cadastrado com sucesso!");
   };
 
   return (

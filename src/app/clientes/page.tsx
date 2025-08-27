@@ -4,18 +4,31 @@ import Link from "next/link";
 import { Edit, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { mutate } from "swr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSearchParams } from "next/navigation";
 import { useClientes } from "@/hooks/useClientes";
 import api from "@/lib/api";
 
 export default function Clientes() {
+  const searchParams = useSearchParams();
   const { clientes, isLoading, isError } = useClientes();
   const router = useRouter();
   const [busca, setBusca] = useState("");
 
+  useEffect(() => {
+    if (searchParams.get("toast") === "success") {
+      toast.success(`${searchParams.get("msg")}`);
+      // Remove todos os parâmetros da URL
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, [searchParams]);
+
   const handleDelete = async (id: number) => {
     await api.delete(`/clientes/${id}`);
     mutate("/clientes"); // <- atualiza a lista de clientes
+    toast.success("Deletado com sucesso!");
   };
 
   const handleEdit = (id: number) => {
@@ -93,6 +106,7 @@ export default function Clientes() {
           ))}
         </tbody>
       </table>
+      <ToastContainer />
     </div>
   );
 }
