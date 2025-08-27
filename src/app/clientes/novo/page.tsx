@@ -22,13 +22,13 @@ export default function NovoClientePage() {
   };
 
   return (
-    <div className="p-6 w-full">
+    <div className="p-6 w-full bg-white rounded-lg border border-gray-200">
       <h1 className="text-2xl font-bold mb-6">Novo Cliente</h1>
 
       {/* Definindo que o form tera 12 colunas*/}
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-6 space-y-4 grid grid-cols-12 gap-4"
+        className="bg-white space-y-4 grid grid-cols-12 gap-4"
       >
         {/*O nome ocupa 8 colunas */}
         <div className="col-span-12 md:col-span-8">

@@ -46,27 +46,29 @@ export default function Clientes() {
   if (isError) return <p>Erro ao carregar</p>;
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-white rounded-lg border border-gray-200 w-full">
       {/*preciso implementar uma busca pelos itens na tabela */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Clientes</h1>
-        <Link
-          href="/clientes/novo"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          Novo
-        </Link>
       </div>
 
       {/* Campo de busca */}
       <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Buscar por nome ou CNPJ..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          className="border rounded-lg px-3 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div className="flex items-center justify-between mb-6">
+          <input
+            type="text"
+            placeholder="Buscar por nome ou CNPJ..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            className="border rounded-lg px-3 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Link
+            href="/clientes/novo"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Novo
+          </Link>
+        </div>
       </div>
 
       <table className=" w-full border border-gray-200 shadow-md rounded-lg overflow-hidden">
