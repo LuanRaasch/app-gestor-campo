@@ -49,7 +49,9 @@ export default function ClienteDetalhesPage({
 
   return (
     <div className="p-6 w-full bg-white rounded-lg border border-gray-200">
-      <h1 className="text-2xl font-bold mb-6">Editar Cliente</h1>
+      <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-3">
+        <h1 className="text-2xl font-bold">Editar Cliente</h1>
+      </div>
 
       {/* Definindo que o form tera 12 colunas*/}
       <form

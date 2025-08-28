@@ -23,7 +23,9 @@ export default function NovoClientePage() {
 
   return (
     <div className="p-6 w-full bg-white rounded-lg border border-gray-200">
-      <h1 className="text-2xl font-bold mb-6">Novo Cliente</h1>
+      <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-3">
+        <h1 className="text-2xl font-bold">Novo Cliente</h1>
+      </div>
 
       {/* Definindo que o form tera 12 colunas*/}
       <form

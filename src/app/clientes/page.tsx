@@ -48,7 +48,7 @@ export default function Clientes() {
   return (
     <div className="p-6 bg-white rounded-lg border border-gray-200 w-full">
       {/*preciso implementar uma busca pelos itens na tabela */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-3">
         <h1 className="text-2xl font-bold">Clientes</h1>
       </div>
 
@@ -83,11 +83,25 @@ export default function Clientes() {
         </thead>
         <tbody>
           {clientesFiltrados?.map((cliente) => (
-            <tr key={cliente.id} className="hover:bg-gray-50">
+            <tr
+              key={cliente.id}
+              className="hover:bg-gray-50 cursor-pointer"
+              onDoubleClick={() => handleEdit(cliente.id)}
+            >
               <td className="p-3 border-b">{cliente.id}</td>
               <td className="p-3 border-b">{cliente.nome}</td>
               <td className="p-3 border-b">{cliente.cnpj}</td>
-              <td className="p-3 border-b">{cliente.ativo ? "Sim" : "Não"}</td>
+              <td className="p-3 border-b">
+                {cliente.ativo ? (
+                  <span className="bg-green-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
+                    {"Sim"}
+                  </span>
+                ) : (
+                  <span className="bg-red-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
+                    {"Não"}
+                  </span>
+                )}
+              </td>
               <td className="p-3 border-b text-center">
                 <div className="inline-flex gap-2 justify-center">
                   <button
@@ -108,6 +122,9 @@ export default function Clientes() {
           ))}
         </tbody>
       </table>
+      <div className="flex content-end justify-end mt-2 text-sm text-gray-600">
+        {clientesFiltrados?.length} registros.
+      </div>
       <ToastContainer />
     </div>
   );
