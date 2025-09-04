@@ -20,7 +20,7 @@ export default function LoginPage() {
       if (response.status === 201) {
         const data = response.data;
         Cookies.set("token", data.access_token, { expires: 1 });
-        router.push("/"); // redireciona para sua página principal
+        router.push("/clientes"); // redireciona para sua página principal
       } else {
         setErro("Credenciais inválidas");
       }
