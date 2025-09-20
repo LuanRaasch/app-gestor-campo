@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
-import api from "@/lib/api";
 
 export default function LoginPage() {
+  const { login } = useAuth();
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
@@ -16,18 +17,10 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/auth/login", { email, senha });
-
-      if (response.status === 201) {
-        const data = response.data;
-        Cookies.set("token", data.access_token, { expires: 1 });
-        router.push("/clientes"); // redireciona para sua página principal
-      } else {
-        setErro("Credenciais inválidas");
-      }
-    } catch (err) {
-      console.error(err);
-      setErro("Erro no servidor");
+      await login(email, senha);
+      router.push("/clientes"); // redireciona após login
+    } catch {
+      setErro("Email ou senha inválidos");
     }
   };
 

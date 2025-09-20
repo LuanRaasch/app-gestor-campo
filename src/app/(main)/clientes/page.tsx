@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSearchParams } from "next/navigation";
 import { useClientes } from "@/hooks/useClientes";
 import api from "@/lib/api";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Clientes() {
   const searchParams = useSearchParams();
@@ -46,86 +47,88 @@ export default function Clientes() {
   if (isError) return <p>Erro ao carregar</p>;
 
   return (
-    <div className="p-6 bg-white rounded-lg border border-gray-200 w-full">
-      {/*preciso implementar uma busca pelos itens na tabela */}
-      <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-3">
-        <h1 className="text-2xl font-bold">Clientes</h1>
-      </div>
-
-      {/* Campo de busca */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-6">
-          <input
-            type="text"
-            placeholder="Buscar por nome ou CNPJ..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            className="border rounded-lg px-3 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Link
-            href="/clientes/novo"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-          >
-            Novo
-          </Link>
+    <ProtectedRoute>
+      <div className="p-6 bg-white rounded-lg border border-gray-200 w-full">
+        {/*preciso implementar uma busca pelos itens na tabela */}
+        <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-3">
+          <h1 className="text-2xl font-bold">Clientes</h1>
         </div>
-      </div>
 
-      <table className=" w-full border border-gray-200 shadow-md rounded-lg overflow-hidden">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="text-left p-3 border-b">ID</th>
-            <th className="text-left p-3 border-b">Nome</th>
-            <th className="text-left p-3 border-b">CNPJ</th>
-            <th className="text-left p-3 border-b">Ativo</th>
-            <th className="text-center p-3 border-b">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clientesFiltrados?.map((cliente) => (
-            <tr
-              key={cliente.id}
-              className="hover:bg-gray-50 cursor-pointer"
-              onDoubleClick={() => handleEdit(cliente.id)}
+        {/* Campo de busca */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-6">
+            <input
+              type="text"
+              placeholder="Buscar por nome ou CNPJ..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              className="border rounded-lg px-3 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <Link
+              href="/clientes/novo"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
             >
-              <td className="p-3 border-b">{cliente.id}</td>
-              <td className="p-3 border-b">{cliente.nome}</td>
-              <td className="p-3 border-b">{cliente.cnpj}</td>
-              <td className="p-3 border-b">
-                {cliente.ativo ? (
-                  <span className="bg-green-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
-                    {"Sim"}
-                  </span>
-                ) : (
-                  <span className="bg-red-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
-                    {"Não"}
-                  </span>
-                )}
-              </td>
-              <td className="p-3 border-b text-center">
-                <div className="inline-flex gap-2 justify-center">
-                  <button
-                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                    onClick={() => handleEdit(cliente.id)}
-                  >
-                    <Edit size={20} />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700 cursor-pointer"
-                    onClick={() => handleDelete(cliente.id)}
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                </div>
-              </td>
+              Novo
+            </Link>
+          </div>
+        </div>
+
+        <table className=" w-full border border-gray-200 shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="text-left p-3 border-b">ID</th>
+              <th className="text-left p-3 border-b">Nome</th>
+              <th className="text-left p-3 border-b">CNPJ</th>
+              <th className="text-left p-3 border-b">Ativo</th>
+              <th className="text-center p-3 border-b">Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="flex content-end justify-end mt-2 text-sm text-gray-600">
-        {clientesFiltrados?.length} registros.
+          </thead>
+          <tbody>
+            {clientesFiltrados?.map((cliente) => (
+              <tr
+                key={cliente.id}
+                className="hover:bg-gray-50 cursor-pointer"
+                onDoubleClick={() => handleEdit(cliente.id)}
+              >
+                <td className="p-3 border-b">{cliente.id}</td>
+                <td className="p-3 border-b">{cliente.nome}</td>
+                <td className="p-3 border-b">{cliente.cnpj}</td>
+                <td className="p-3 border-b">
+                  {cliente.ativo ? (
+                    <span className="bg-green-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
+                      {"Sim"}
+                    </span>
+                  ) : (
+                    <span className="bg-red-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
+                      {"Não"}
+                    </span>
+                  )}
+                </td>
+                <td className="p-3 border-b text-center">
+                  <div className="inline-flex gap-2 justify-center">
+                    <button
+                      className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                      onClick={() => handleEdit(cliente.id)}
+                    >
+                      <Edit size={20} />
+                    </button>
+                    <button
+                      className="text-red-500 hover:text-red-700 cursor-pointer"
+                      onClick={() => handleDelete(cliente.id)}
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="flex content-end justify-end mt-2 text-sm text-gray-600">
+          {clientesFiltrados?.length} registros.
+        </div>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </ProtectedRoute>
   );
 }
