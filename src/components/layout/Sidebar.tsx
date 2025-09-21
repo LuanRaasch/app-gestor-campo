@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, Settings, Users, Menu, X, Activity } from "lucide-react";
+import { Home, Settings, Users, Menu, X, Activity, LogOut } from "lucide-react";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,7 @@ export default function Sidebar() {
     <>
       {/* Botão de menu no topo (visível só em telas menores) */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-2 rounded-lg"
+        className="md:hidden fixed top-4 left-4 z-50 bg-blue-950 text-white p-2 rounded-lg"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -28,7 +28,7 @@ export default function Sidebar() {
       {/* Sidebar */}
       <aside
         className={`
-        h-full w-64 bg-gray-900 text-white shadow-lg
+        h-full w-64 bg-blue-950 text-white shadow-lg
         fixed md:static top-0 left-0
         transform transition-transform duration-300 z-50
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -41,7 +41,7 @@ export default function Sidebar() {
 
         <nav className="flex-1 p-4 space-y-2">
           <Link
-            href="/"
+            href="/dashboard"
             className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition"
           >
             <Home size={20} />
@@ -82,8 +82,9 @@ export default function Sidebar() {
         </nav>
 
         <div className="p-4 border-t border-gray-700">
-          <button className="w-full text-left p-2 rounded-lg hover:bg-gray-700 transition">
-            Sair
+          <button className="flex items-center gap-3 w-full text-left p-2 rounded-lg hover:bg-gray-700 transition cursor-pointer">
+            <LogOut size={20} />
+            <span>Sair</span>
           </button>
         </div>
       </aside>

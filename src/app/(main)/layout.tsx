@@ -1,3 +1,5 @@
+"use client";
+
 import Sidebar from "@/components/layout/Sidebar";
 import Navbar from "@/components/layout/Navbar";
 
@@ -7,19 +9,23 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar fixa no desktop */}
-      <div className="hidden md:block w-64">
-        <Sidebar />
-      </div>
+    <div className="flex min-h-screen flex-col">
+      {/* Navbar fixa no topo */}
+      <Navbar />
+      <div className="flex flex-1">
+        {/* Sidebar fixa no desktop */}
+        <aside className="hidden md:block w-64">
+          <Sidebar />
+        </aside>
 
-      {/* Sidebar responsiva (toggle só no mobile) */}
-      <div className="md:hidden">
-        <Sidebar />
-      </div>
+        {/* Sidebar responsiva (exibida no mobile com toggle) */}
+        <aside className="md:hidden">
+          <Sidebar />
+        </aside>
 
-      {/* Conteúdo principal */}
-      <main className="flex-1 p-6">{children}</main>
+        {/* Conteúdo principal */}
+        <main className="flex-1 p-6 mt-16">{children}</main>
+      </div>
     </div>
   );
 }
