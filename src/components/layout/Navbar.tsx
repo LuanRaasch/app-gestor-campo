@@ -8,11 +8,8 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 md:left-64 right-0 h-16 bg-yellow-500 flex items-center justify-between px-6 shadow-md z-40`}
+      className={`fixed top-0 left-0 md:left-64 right-0 h-16 bg-yellow-500 flex items-center justify-end px-6 shadow-md z-40`}
     >
-      {/* Nome do sistema */}
-      <h1 className="text-xl font-bold">Meu Sistema</h1>
-
       {/* Dados do usuário */}
       <div className="flex items-center gap-3">
         <span>{user?.nome}</span>

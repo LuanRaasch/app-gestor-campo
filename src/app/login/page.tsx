@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     try {
       await login(email, senha);
-      router.push("/clientes"); // redireciona após login
+      router.push("/dashboard"); // redireciona após login
     } catch {
       setErro("Email ou senha inválidos");
     }
