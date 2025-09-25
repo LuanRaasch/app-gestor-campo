@@ -15,6 +15,17 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 export default function Usuarios() {
   const [busca, setBusca] = useState("");
   const { usuarios, isLoading, isError } = useUsuarios();
+  const router = useRouter();
+
+  const handleDelete = async (id: number) => {
+    await api.delete(`usuarios/${id}`);
+    mutate("/clientes");
+    toast.success("Deletado com sucesso!");
+  };
+
+  const handleEdit = (id: number) => {
+    router.push(`usuarios/${id}`);
+  };
 
   const usuariosFiltrados = usuarios?.filter((usuario) =>
     usuario.nome.toLowerCase().includes(busca.toLowerCase())
@@ -76,12 +87,20 @@ export default function Usuarios() {
                 )}
               </td>
               <td className="p-3 border-b text-center">
-                <button className="text-blue-500 hover:text-blue-700 cursor-pointer">
-                  <Edit size={20} />
-                </button>
-                <button className="text-red-500 hover:text-red-700 cursor-pointer">
-                  <Trash2 size={20} />
-                </button>
+                <div className="inline-flex gap-2 justify-center">
+                  <button
+                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                    onClick={() => handleEdit(usuario.id)}
+                  >
+                    <Edit size={20} />
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700 cursor-pointer"
+                    onClick={() => handleDelete(usuario.id)}
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -90,6 +109,7 @@ export default function Usuarios() {
       <div className="flex content-end justify-end mt-2 text-sm text-gray-600">
         {usuariosFiltrados?.length} registros.
       </div>
+      <ToastContainer />
     </div>
     /* </ProtectedRoute> */
   );
