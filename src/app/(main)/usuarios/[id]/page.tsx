@@ -1,31 +1,53 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { use, useEffect, useState } from "react";
+import { notFound, useRouter } from "next/navigation";
 import { mutate } from "swr";
 import api from "@/lib/api";
+import { useUsuarioDetail } from "@/hooks/useUsuarioDetail";
 
-export default function NovoUsuario() {
+export default function EditarUsuario({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}) {
+  const { id } = use(params);
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmaSenha, setConfirmaSenha] = useState("");
   const [tipo, setTipo] = useState<"gestor" | "tecnico">("tecnico");
+  const [ativo, setAtivo] = useState(true);
 
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    api.post("/auth/register", { nome, email, senha, tipo });
+    api.put(`usuarios/${id}`, { nome, email, tipo, ativo });
     mutate("/usuarios");
-    router.push("/usuarios?toast=success&msg=Cadastrado com sucesso!");
+    router.push("/usuarios?toast=success&msg=Editado com sucesso!");
   };
+
+  const { usuario, isLoading, isError } = useUsuarioDetail(id);
+
+  //Use effect para preencher os campos quando o cliente for carregado
+  useEffect(() => {
+    if (usuario) {
+      setNome(usuario.nome);
+      setEmail(usuario.email);
+      setTipo(usuario.tipo);
+      setAtivo(usuario.ativo);
+    }
+  }, [usuario]); //só roda quando cliente mudar
+
+  if (isLoading) return <p>Carregando...</p>;
+  if (isError) return <p>Erro ao carregar</p>;
+  if (!usuario) return notFound();
 
   return (
     <div className="p-6 w-full bg-white rounded-lg border border-gray-200">
       <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-3">
-        <h1 className="text-2xl font-bold">Novo Usuário</h1>
+        <h1 className="text-2xl font-bold">Editar Usuário</h1>
       </div>
 
       <form
@@ -55,7 +77,7 @@ export default function NovoUsuario() {
           </select>
         </div>
 
-        <div className="col-span-12 md:col-span-12">
+        <div className="col-span-12 md:col-span-8">
           <label className="block text-sm font-medium mb-1">Email</label>
           <input
             type="email"
@@ -66,27 +88,13 @@ export default function NovoUsuario() {
           />
         </div>
 
-        <div className="col-span-12 md:col-span-6">
-          <label className="block text-sm font-medium mb-1">Senha</label>
+        <div className="col-span-12 md:col-span-4 flex items-center mt-6 gap-2">
+          <label className="block text-sm font-medium mb-1 m-0">Ativo</label>
           <input
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        <div className="col-span-12 md:col-span-6">
-          <label className="block text-sm font-medium mb-1">
-            Confirmar Senha
-          </label>
-          <input
-            type="password"
-            value={confirmaSenha}
-            onChange={(e) => setConfirmaSenha(e.target.value)}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
+            type="checkbox"
+            checked={ativo}
+            onChange={(e) => setAtivo(e.target.checked)}
+            className="h-5 w-5 accent-blue-500"
           />
         </div>
 
@@ -99,6 +107,7 @@ export default function NovoUsuario() {
           </button>
 
           <button
+            type="button"
             className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
             onClick={() => router.push("/usuarios")}
           >

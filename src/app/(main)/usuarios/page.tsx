@@ -13,13 +13,21 @@ import api from "@/lib/api";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Usuarios() {
+  const searchParams = useSearchParams();
   const [busca, setBusca] = useState("");
   const { usuarios, isLoading, isError } = useUsuarios();
   const router = useRouter();
 
+  useEffect(() => {
+    if (searchParams.get("toast") === "success") {
+      toast.success(`${searchParams.get("msg")}`);
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, [searchParams]);
+
   const handleDelete = async (id: number) => {
     await api.delete(`usuarios/${id}`);
-    mutate("/clientes");
+    mutate("/usuarios");
     toast.success("Deletado com sucesso!");
   };
 
@@ -74,7 +82,13 @@ export default function Usuarios() {
             <tr key={usuario.id} className="hover:bg-gray-50 cursor-pointer">
               <td className="p-3 border-b">{usuario.id}</td>
               <td className="p-3 border-b">{usuario.nome}</td>
-              <td className="p-3 border-b">{usuario.tipo}</td>
+              <td className="p-3 border-b">
+                {usuario.tipo === "gestor" ? (
+                  <span className="text-amber-400 font-bold">Gestor</span>
+                ) : (
+                  <span className="text-black font-bold">Técnico</span>
+                )}
+              </td>
               <td className="p-3 border-b">
                 {usuario.ativo ? (
                   <span className="bg-green-600 text-white pt-0.5 pl-2 pr-2 pb-0.5 rounded">
