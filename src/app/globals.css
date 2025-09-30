@@ -28,3 +28,15 @@ body {
 .code {
   font-family: var(--font-geist-mono), monospace;
 }
+
+.bgStsPendente {
+  background: #facc15;
+}
+
+.bgStsConcluida {
+  background: #22c55e;
+}
+
+.bgStsEmAndamento {
+  background: #3b82f6;
+}
