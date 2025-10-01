@@ -31,12 +31,26 @@ export default function Atividades() {
   const [dataFinal, setDataFinal] = useState(
     ultimoDia.toISOString().split("T")[0]
   );
+
+  const [filtros, setFiltros] = useState<{
+    inicio: string;
+    fim: string;
+  } | null>(null);
+
   const [busca, setBusca] = useState("");
 
   const { atividades, isLoading, isError } = useAtividades(
-    dataInicial,
-    dataFinal
+    filtros?.inicio,
+    filtros?.fim
   );
+
+  function handleBuscar() {
+    setFiltros({ inicio: dataInicial, fim: dataFinal });
+  }
+
+  useEffect(() => {
+    setFiltros({ inicio: dataInicial, fim: dataFinal });
+  }, []);
 
   const atividadesFiltradas = atividades?.filter(
     (atividade) =>
@@ -50,7 +64,7 @@ export default function Atividades() {
   return (
     <ProtectedRoute>
       <div className="p-6 w-full bg-white rounded-lg border border-gray-200 space-y-4">
-        <div className="space-y-4 grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 md:col-span-6">
             <label className="block text-sm font-medium mb-1">Descrição</label>
             <input
@@ -87,9 +101,19 @@ export default function Atividades() {
           <div className="col-span-12 md:col-span-2">
             <button
               type="button"
+              onClick={handleBuscar}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer w-full mt-6 font-semibold"
             >
               Buscar
+            </button>
+          </div>
+
+          <div className="col-span-12 md:col-span-12 flex justify-end item  h-max">
+            <button
+              type="button"
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition cursor-pointer w-max font-semibold"
+            >
+              Nova Tarefa
             </button>
           </div>
         </div>
@@ -100,8 +124,9 @@ export default function Atividades() {
               <tr>
                 <th className="text-left p-3 border-b">ID</th>
                 <th className="text-left p-3 border-b">Titulo</th>
-                <th className="text-left p-3 border-b">Descrição</th>
                 <th className="text-left p-3 border-b">Status</th>
+                <th className="text-left p-3 border-b">Cliente</th>
+                <th className="text-left p-3 border-b">Técnico</th>
                 <th className="text-left p-3 border-b">Data</th>
               </tr>
             </thead>
@@ -113,13 +138,18 @@ export default function Atividades() {
                 >
                   <td className="p-3 border-b">{atividade.id}</td>
                   <td className="p-3 border-b">{atividade.titulo}</td>
-                  <td className="p-3 border-b">{atividade.descricao}</td>
                   <td className="p-3 border-b">
                     <span className={statusMap[atividade.status].classes}>
                       {statusMap[atividade.status].label}
                     </span>
                   </td>
-                  <td className="p-3 border-b">{atividade.data}</td>
+                  <td className="p-3 border-b">{atividade.cliente.nome}</td>
+                  <td className="p-3 border-b">{atividade.usuario.nome}</td>
+                  <td className="p-3 border-b">
+                    {`${atividade.data.split("T")[0]} ${
+                      atividade.data.split("T")[1].split(".")[0]
+                    }`}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -139,6 +169,9 @@ export default function Atividades() {
             <button className="font-semibold border cursor-pointer px-2 bg-gray-950 text-white hover:bg-gray-700 rounded-sm">
               {">>"}
             </button>
+          </div>
+          <div className="flex content-end justify-end text-sm bg-gray-100 text-gray-600 px-2">
+            {atividadesFiltradas?.length} registros.
           </div>
         </div>
       </div>

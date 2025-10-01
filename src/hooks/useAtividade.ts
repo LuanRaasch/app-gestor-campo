@@ -9,7 +9,6 @@ export function useAtividades(
   dataFinal?: string,
   status?: string
 ) {
-  console.log("rodou");
   const { data, error, mutate, isLoading } = useSWR<Atividade[]>(
     `/atividades?data_inicio=${dataInicial || ""}&data_fim=${
       dataFinal || ""
