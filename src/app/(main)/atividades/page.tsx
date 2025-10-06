@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAtividades } from "@/hooks/useAtividade";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Link from "next/link";
 
 const statusMap: Record<string, { label: string; classes: string }> = {
   concluido: {
@@ -102,19 +103,19 @@ export default function Atividades() {
             <button
               type="button"
               onClick={handleBuscar}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer w-full mt-6 font-semibold"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer w-full mt-6 font-semibold"
             >
               Buscar
             </button>
           </div>
 
           <div className="col-span-12 md:col-span-12 flex justify-end item  h-max">
-            <button
-              type="button"
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition cursor-pointer w-max font-semibold"
+            <Link
+              href="atividades/novo"
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold"
             >
               Nova Tarefa
-            </button>
+            </Link>
           </div>
         </div>
 
